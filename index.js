@@ -12,7 +12,7 @@ process.on('uncaughtExceptionMonitor', (err, origin) => {
 
 const { Client, Collection, GatewayIntentBits, Partials, Guild, Events } = require('discord.js');
 const fs = require('fs');
-const { loadAllLogChannels, background } = require("./DAL/databaseApi");
+const { loadAllLogChannels, loadAllShameChannels, background } = require("./DAL/databaseApi");
 const { lookupGuildBehavior } = require("./DAL/behaviorApi");
 const nitroSteamScam = require("./Monitors/nitroSteamScam");
 const antiLinkSpam = require("./Monitors/antiLinkSpam");
@@ -55,6 +55,7 @@ for (const file of commandFiles) {
 
 client.once(Events.ClientReady, async () => {
     await loadAllLogChannels();
+    await loadAllShameChannels();
     background();
     
     try {

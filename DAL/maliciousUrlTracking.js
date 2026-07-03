@@ -1,7 +1,7 @@
 const { Message } = require("discord.js");
 const { lookupGuildBehavior } = require("./behaviorApi");
 const { shouldActionUser, recordKick, recordTimeout, recordBan, recordError, recordWarning, recordFail, recordContentReview } = require("./databaseApi");
-const { logWarning, logKick, logTimeout, logBan, logError, forwardMessage } = require("./logApi");
+const { logWarning, logKick, logTimeout, logBan, logError, forwardMessage, sendShameMessage } = require("./logApi");
 const { getDomainCreationDate } = require("./domainLookup");
 const { getAllRedirects } = require("./redirectExtractor");
 const { extractHostname } = require("./urlTesterApi");
@@ -132,6 +132,7 @@ async function maliciousUrlDetected(message, guildId, userId, username, reason, 
                     reason);
 
                 await logKick(client, guildId, userId, channelId, content, reason);
+                await sendShameMessage(client, guildId, message.member, "kick", reason, content);
 
                 action = "kick-success";
             } else if (behaviors.removal_action === "timeout" && message.member.manageable) {
@@ -143,6 +144,7 @@ async function maliciousUrlDetected(message, guildId, userId, username, reason, 
                     reason);
 
                 await logTimeout(client, guildId, userId, channelId, content, reason);
+                await sendShameMessage(client, guildId, message.member, "timeout", reason, content);
 
                 action = "timeout-success";
             } else if (behaviors.removal_action === "ban" && message.member.bannable) {
@@ -154,6 +156,7 @@ async function maliciousUrlDetected(message, guildId, userId, username, reason, 
                     reason);
 
                 await logBan(client, guildId, userId, channelId, content, reason);
+                await sendShameMessage(client, guildId, message.member, "ban", reason, content);
 
                 action = "ban-success";
             } else {
@@ -317,6 +320,7 @@ async function spamUrlDetected(message, guildId, userId, username, reason, perfo
                     reason);
 
                 await logKick(client, guildId, userId, channelId, content, reason);
+                await sendShameMessage(client, guildId, message.member, "kick", reason, content);
 
                 action = "kick-success";
             } else if (behaviors.removal_action === "timeout" && message.member.manageable) {
@@ -328,6 +332,7 @@ async function spamUrlDetected(message, guildId, userId, username, reason, perfo
                     reason);
 
                 await logTimeout(client, guildId, userId, channelId, content, reason);
+                await sendShameMessage(client, guildId, message.member, "timeout", reason, content);
 
                 action = "timeout-success";
             } else if (behaviors.removal_action === "ban" && message.member.bannable) {
@@ -339,6 +344,7 @@ async function spamUrlDetected(message, guildId, userId, username, reason, perfo
                     reason);
 
                 await logBan(client, guildId, userId, channelId, content, reason);
+                await sendShameMessage(client, guildId, message.member, "ban", reason, content);
 
                 action = "ban-success";
             } else {

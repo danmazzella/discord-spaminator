@@ -36,7 +36,7 @@ The bot needs the following permissions to function:
 
 Additionally, in order to action users (kick, ban, or time out, your choice on what you choose to grant), the bot must have a role above all users you wish to action.  **NOTE: the bot will only action users that do not have the Manage Messages permission in the server.**  Moderators should not be actioned by the bot.
 
-The bot includes two slash commands to make diagnosing and controlling the bot's behavior easier.  
+The bot includes several slash commands to make diagnosing and controlling the bot's behavior easier.  
 
 ## Bot activity logging to a channel
 The bot has the ability to log actions it takes to a channel of your choosing. To enable the log command, you'll want to ensure the bot has the following permissions on the channel you wish to log to:
@@ -76,6 +76,19 @@ The supported removal_actions are:
 - Kick (default)
 - Timeout (3 days)
 - Ban
+
+## Public "shame" messages
+If you'd like a bit of fun public accountability, you can designate a channel where the bot posts a lighthearted call-out any time it kicks, times out, or bans a user. It shows off their display name, Discord username, and whatever they tried to sneak past the bot before getting caught. The bot needs the same permissions on this channel as the log channel:
+- Read Messages/View Channels
+- Send Messages
+- Send Embeds
+
+To enable it, do
+```
+/shame to:CHANNEL
+```
+
+Where "CHANNEL" is the channel you want shame posts to appear in. To disable it, run `/shame` with no channel specified.
 
 I personally do not recommend ban as I have seen users recover their accounts in the past. It isn't super common, but it's common enough that ban instead of kick creates a burden on the mod team in the future to unban the user.
 

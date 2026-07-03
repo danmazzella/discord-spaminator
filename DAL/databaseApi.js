@@ -543,6 +543,64 @@ function getLogChannel(guildId) {
     return null;
 }
 
+const shameChannels = {};
+const SHAME_COLLECTION = "shamechannels";
+
+/**
+ * @description Set or clear the shame channel for a guild
+ * @param {String} guildId The server ID
+ * @param {String} channelId The channel ID, or null/undefined to disable
+ */
+async function registerShameChannel(guildId, channelId) {
+    const ref = db.collection(SHAME_COLLECTION).doc(guildId);
+    const docs = await ref.get();
+
+    if (channelId) {
+        await ref.set({
+            id: guildId,
+            channelId,
+            createdOn: Timestamp.now()
+        });
+    } else {
+        if (docs.exists) {
+            await ref.delete();
+        }
+    }
+
+    shameChannels[guildId] = {
+        id: guildId,
+        channelId
+    };
+}
+
+/**
+ *
+ */
+async function loadAllShameChannels() {
+    const ref = db.collection(SHAME_COLLECTION);
+    const docs = await ref.get();
+
+    if (docs.size > 0) {
+        docs.forEach(e => {
+            let data = e.data();
+
+            shameChannels[data.id] = data;
+        });
+    }
+}
+
+/**
+ *
+ * @param {String} guildId
+ * @returns {String}
+ */
+function getShameChannel(guildId) {
+    if (shameChannels[guildId])
+        return shameChannels[guildId].channelId;
+
+    return null;
+}
+
 const callbacks = {
     warning: [],
     kick: [],
@@ -801,6 +859,10 @@ module.exports = {
     registerLogs,
     loadAllLogChannels,
     getLogChannel,
+
+    registerShameChannel,
+    loadAllShameChannels,
+    getShameChannel,
 
     monitor,
 
