@@ -6,7 +6,7 @@ const { logActivity } = require("../DAL/logApi");
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('shame')
-		.setDescription('Specify a channel for public "shame" posts when a user is kicked, timed out, or banned. Omit "to" to disable.')
+		.setDescription('Specify a channel for public "shame" posts on kicks/timeouts/bans. Omit "to" to disable.')
         .addChannelOption(option =>
             option.setName("to")
                 .setDescription("The channel to post shame messages in. Make sure the bot has access to it!"))
