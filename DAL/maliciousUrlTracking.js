@@ -131,8 +131,8 @@ async function maliciousUrlDetected(message, guildId, userId, username, reason, 
                     username,
                     reason);
 
-                await logKick(client, guildId, userId, channelId, content, reason);
-                await sendShameMessage(client, guildId, message.member, "kick", reason, content);
+                const isFirstKick = await logKick(client, guildId, userId, channelId, content, reason);
+                if (isFirstKick) await sendShameMessage(client, guildId, message.member, "kick", reason, content);
 
                 action = "kick-success";
             } else if (behaviors.removal_action === "timeout" && message.member.manageable) {
@@ -143,8 +143,8 @@ async function maliciousUrlDetected(message, guildId, userId, username, reason, 
                     username,
                     reason);
 
-                await logTimeout(client, guildId, userId, channelId, content, reason);
-                await sendShameMessage(client, guildId, message.member, "timeout", reason, content);
+                const isFirstTimeout = await logTimeout(client, guildId, userId, channelId, content, reason);
+                if (isFirstTimeout) await sendShameMessage(client, guildId, message.member, "timeout", reason, content);
 
                 action = "timeout-success";
             } else if (behaviors.removal_action === "ban" && message.member.bannable) {
@@ -155,8 +155,8 @@ async function maliciousUrlDetected(message, guildId, userId, username, reason, 
                     username,
                     reason);
 
-                await logBan(client, guildId, userId, channelId, content, reason);
-                await sendShameMessage(client, guildId, message.member, "ban", reason, content);
+                const isFirstBan = await logBan(client, guildId, userId, channelId, content, reason);
+                if (isFirstBan) await sendShameMessage(client, guildId, message.member, "ban", reason, content);
 
                 action = "ban-success";
             } else {
@@ -319,8 +319,8 @@ async function spamUrlDetected(message, guildId, userId, username, reason, perfo
                     username,
                     reason);
 
-                await logKick(client, guildId, userId, channelId, content, reason);
-                await sendShameMessage(client, guildId, message.member, "kick", reason, content);
+                const isFirstKick = await logKick(client, guildId, userId, channelId, content, reason);
+                if (isFirstKick) await sendShameMessage(client, guildId, message.member, "kick", reason, content);
 
                 action = "kick-success";
             } else if (behaviors.removal_action === "timeout" && message.member.manageable) {
@@ -331,8 +331,8 @@ async function spamUrlDetected(message, guildId, userId, username, reason, perfo
                     username,
                     reason);
 
-                await logTimeout(client, guildId, userId, channelId, content, reason);
-                await sendShameMessage(client, guildId, message.member, "timeout", reason, content);
+                const isFirstTimeout = await logTimeout(client, guildId, userId, channelId, content, reason);
+                if (isFirstTimeout) await sendShameMessage(client, guildId, message.member, "timeout", reason, content);
 
                 action = "timeout-success";
             } else if (behaviors.removal_action === "ban" && message.member.bannable) {
@@ -343,8 +343,8 @@ async function spamUrlDetected(message, guildId, userId, username, reason, perfo
                     username,
                     reason);
 
-                await logBan(client, guildId, userId, channelId, content, reason);
-                await sendShameMessage(client, guildId, message.member, "ban", reason, content);
+                const isFirstBan = await logBan(client, guildId, userId, channelId, content, reason);
+                if (isFirstBan) await sendShameMessage(client, guildId, message.member, "ban", reason, content);
 
                 action = "ban-success";
             } else {

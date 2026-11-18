@@ -138,7 +138,7 @@ const recentlyActionedUsers = [];
  * @param {String} channelId 
  * @param {String} message 
  * @param {String} reason 
- * @returns 
+ * @returns {Promise<Boolean>} true if this is the first action recorded for the user in the dedup window (i.e. safe to shame)
  */
 async function logKick(client, guildId, userId, channelId, message = "", reason = "unknown") {
     let alreadyActioned = false;
@@ -154,12 +154,14 @@ async function logKick(client, guildId, userId, channelId, message = "", reason 
 
     await logActivity(
         client,
-        guildId, 
+        guildId,
         `User${alreadyActioned ? " already " : " " }kicked. Reason: ${reason}`,
 `**<@${userId}> sent this message in <#${channelId}>**:
 
 \`${message.replace("`", "")}\``,
     alreadyActioned ? ACTION_NOACTION_COLOR : ACTION_COLOR);
+
+    return !alreadyActioned;
 }
 
 /**
@@ -170,7 +172,7 @@ async function logKick(client, guildId, userId, channelId, message = "", reason 
  * @param {String} channelId 
  * @param {String} message 
  * @param {String} reason 
- * @returns 
+ * @returns {Promise<Boolean>} true if this is the first action recorded for the user in the dedup window (i.e. safe to shame)
  */
 async function logTimeout(client, guildId, userId, channelId, message = "", reason = "unknown") {
     let alreadyActioned = false;
@@ -186,12 +188,14 @@ async function logTimeout(client, guildId, userId, channelId, message = "", reas
 
     await logActivity(
         client,
-        guildId, 
+        guildId,
         `User${alreadyActioned ? " already " : " " }timed out. Reason: ${reason}`,
 `**<@${userId}> sent this message in <#${channelId}>**:
 
 \`${message.replace("`", "")}\``,
     alreadyActioned ? ACTION_NOACTION_COLOR : ACTION_COLOR);
+
+    return !alreadyActioned;
 }
 
 /**
@@ -202,7 +206,7 @@ async function logTimeout(client, guildId, userId, channelId, message = "", reas
  * @param {String} channelId 
  * @param {String} message 
  * @param {String} reason 
- * @returns 
+ * @returns {Promise<Boolean>} true if this is the first action recorded for the user in the dedup window (i.e. safe to shame)
  */
 async function logBan(client, guildId, userId, channelId, message = "", reason = "unknown") {
     let alreadyActioned = false;
@@ -218,12 +222,14 @@ async function logBan(client, guildId, userId, channelId, message = "", reason =
 
     await logActivity(
         client,
-        guildId, 
+        guildId,
         `User${alreadyActioned ? " already " : " " }banned. Reason: ${reason}`,
 `**<@${userId}> sent this message in <#${channelId}>**:
 
 \`${message.replace("`", "")}\``,
     alreadyActioned ? ACTION_NOACTION_COLOR : ACTION_COLOR);
+
+    return !alreadyActioned;
 }
 
 const INFORMATION_COLOR = "#cccccc";
